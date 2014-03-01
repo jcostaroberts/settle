@@ -1,0 +1,48 @@
+root {
+    display: block;
+}
+
+body {
+    background-color: #fff;
+    margin: 20px 0px 0px 0px;
+}
+
+body article#game {
+    width: 600px;
+    margin: 0 auto;
+}
+
+header div {
+    height: 40px;
+    font-size: 30px;
+    padding-top: 15px;
+}
+
+#board {
+    padding-top: 10px;
+    height: 570px;
+    width: 450px;
+    background-color=rgb(228, 223, 208);
+}
+
+.card {
+    float: left;
+    width: 100px;
+    height: 70px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #ffffff;
+    cursor: pointer;
+}
+
+.card img {
+    display: block;
+    margin: 0 auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid #cfcfcf;
+    width=50px;
+}
+    

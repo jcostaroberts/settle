@@ -26,11 +26,11 @@ function Deck() {
     shape = ["diamond", "squiggle", "oval"];
     fill = ["striped", "open", "solid"];
     number = [1, 2, 3];
-    for (i in color) {
-      for (j in shape) {
-        for (k in fill) {
-          for (l in number) {
-            this.deck.push(new Card(color[i], shape[j], fill[k], number[l]));
+    for (i in COLOR) {
+      for (j in SHAPE) {
+        for (k in FILL) {
+          for (l in NUMBER) {
+            this.deck.push(new Card(COLOR[i], SHAPE[j], FILL[k], NUMBER[l]));
           }
         }
       }

@@ -10,7 +10,7 @@ function SetGame() {
   this.startTime = 0;
   this.grid = new Grid();
   this.deck = new Deck();
-  this.selected = new Array();
+  this.intervalId = -1;
 
   this.doSetup = function() {
     this.deck.doSetup();
@@ -25,13 +25,15 @@ function SetGame() {
   }
 
   this.isAttrSet = function(attr, a, b, c) {
-    var allSame = (a[attr] == b[attr]) && (b[attr] == c[attr]);
+    //alert( attr + " a: " + a[attr] + " b: " + b[attr] + " c: " + c[attr])
+    var allSame = (a.card[attr] == b.card[attr]) &&
+                  (b.card[attr] == c.card[attr]);
     if (allSame) {
       return true;
     }
-    var allDifferent = (a[attr] != b[attr]) &&
-                       (b[attr] != c[attr]) &&
-                       (c[attr] != a[attr]);
+    var allDifferent = (a.card[attr] != b.card[attr]) &&
+                       (b.card[attr] != c.card[attr]) &&
+                       (c.card[attr] != a.card[attr]);
     return allDifferent;
   }
 
@@ -55,10 +57,16 @@ function SetGame() {
     if (this.isSet(this.grid.selected)) {
       this.updateScore();
       this.grid.clearSet();
+
       if (this.grid.size > this.grid.startSize) {
         this.grid.consolidate();
       } else if (this.deck.remaining() >= 3) {
         this.grid.dealCards(3, this.deck)
+      }
+
+      //stop timer
+      if (this.deck.deck.length == 0 && !this.setsRemaining()) {
+        clearInterval(this.intervalId);
       }
     }
     this.grid.clearSelected();
@@ -92,12 +100,32 @@ function SetGame() {
   }
 
   this.handleAddRowButtonClick = function(cellId) {
+    this.setsRemaining();
     var numberToAdd = (this.grid.size + 3) > this.grid.maxSize ? 2 : 3;
     if (numberToAdd < 3) alert("<3")
     this.grid.size = this.grid.size + numberToAdd;
     this.grid.dealCards(numberToAdd, this.deck);
     this.grid.updateDisplay();
   }
-   
+
+  this.setsRemaining = function() {
+    for (var i = 0; i < this.grid.size - 2; i++) {
+      for (var j = i + 1; j < this.grid.size - 1; j++) {
+        for (var k = j + 1; k < this.grid.size; k++) {
+          maybeSet = [this.grid.cells[i],
+                      this.grid.cells[j],
+                      this.grid.cells[k]];
+          if (this.isSet(maybeSet)) {
+            //alert("Set: " + this.grid.cells[i].card.name + " " +
+            //      this.grid.cells[j].card.name + " " +
+            //      this.grid.cells[k].card.name);
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+ 
 }
 
